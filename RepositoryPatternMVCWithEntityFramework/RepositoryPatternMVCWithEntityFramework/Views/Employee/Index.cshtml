@@ -1,0 +1,70 @@
+﻿@using PagedList.Mvc;
+
+@model PagedList.IPagedList<Employee>
+ @*分页CSS*@
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Employee Management System";
+}
+
+<h2>Employee Management System</h2>
+
+
+@using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+{
+    <p style="background-color:red; color:white; font-size:16pt; padding:10px;">
+        Search Employee By Name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+        @Html.ActionLink("Add New Employee", "Create")
+    </p>
+}
+<table style="background-color:white;">
+    <tr>
+        <th></th>
+        <th style="width: 100px;">
+            @Html.ActionLink("Emp ID", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Age
+        </th>
+        <th style="width: 150px;"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td style="width:130px;">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td style="width:140px;">
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            
+            <td style="width:270px;">
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+<div style="background-color:orange; padding-left:15px; padding-top:10px;">
+    Showing Records @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>    
