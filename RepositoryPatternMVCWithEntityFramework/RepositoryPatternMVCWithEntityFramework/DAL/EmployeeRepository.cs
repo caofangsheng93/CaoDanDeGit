@@ -9,6 +9,10 @@ namespace RepositoryPatternMVCWithEntityFramework.DAL
     {
         private EmployeeManagementDBEntities context;
 
+        /// <summary>
+        /// 添加注释。。。
+        /// </summary>
+        /// <param name="context"></param>
         public EmployeeRepository(EmployeeManagementDBEntities context)
         {
             this.context = context;
